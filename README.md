@@ -2,7 +2,7 @@
 
 Goal of this project is to learn the different options/configurations on the Jenkins A a Code / Jenkins Configuration as Code
 
-##Jenkins Configuration as Code
+#Jenkins Configuration as Code
 
 The ‘as code’ paradigm is about being able to reproduce and/or restore a full environment within minutes based on recipes and automation, managed as code.
 
@@ -13,13 +13,13 @@ Setting up Jenkins is a complex process, as both Jenkins and its plugins require
 Jenkins Configuration as Code provides the ability to define this whole configuration as a simple, human-friendly, plain text yaml syntax. Without any manual steps, this configuration can be validated and applied to a Jenkins master in a fully reproducible way. With JCasC, setting up a new Jenkins master will become a no-brainer event.
 Configure ALL Jenkins initial setup
 
-##Fully working Jenkins master with:
+#Fully working Jenkins master with:
 
     - no hands on keyboard
 
     - no click on UI
 
-##Support most plugins without extra development effort
+#Support most plugins without extra development effort
 
     - No need to write glue code for every supported plugin- 
 
