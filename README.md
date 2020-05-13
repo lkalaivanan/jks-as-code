@@ -1,5 +1,7 @@
 # jks-as-code
 
+Goal of this project is to learn the different options/configurations on the Jenkins A a Code / Jenkins Configuration as Code
+
 ##Jenkins Configuration as Code
 
 The ‘as code’ paradigm is about being able to reproduce and/or restore a full environment within minutes based on recipes and automation, managed as code.
