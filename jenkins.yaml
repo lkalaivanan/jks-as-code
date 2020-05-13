@@ -1,0 +1,82 @@
+---
+jenkins:
+  systemMessage: "Zero Touch Jenkins Config"
+security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: false
+jobs:
+  - script: >
+      pipelineJob('Build-Code') {
+          definition {
+              cpsScm {
+                  scm {
+                    git {
+                        remote { url 'https://github.com/lkalaivanan/webserver.git' }
+                        branch '*/Dev'
+                        extensions {}
+                    }
+                  }
+                  scriptPath 'Jenkinsfile'
+              }
+          }
+      }
+  - script: >
+      pipelineJob('Deploy-on-Test') {
+          definition {
+              cpsScm {
+                  scm {
+                    git {
+                        remote { url 'https://github.com/lkalaivanan/webserver.git' }
+                        branch '*/Dev'
+                        extensions {}
+                    }
+                  }
+                  scriptPath 'Jenkinsfile'
+              }
+          }
+      }
+  - script: >
+      pipelineJob('Test') {
+          definition {
+              cpsScm {
+                  scm {
+                    git {
+                        remote { url 'https://github.com/lkalaivanan/webserver.git' }
+                        branch '*/Dev'
+                        extensions {}
+                    }
+                  }
+                  scriptPath 'Jenkinsfile'
+              }
+          }
+      }
+  - script: >
+      pipelineJob('Deploy-Prod') {
+          definition {
+              cpsScm {
+                  scm {
+                    git {
+                        remote { url 'https://github.com/lkalaivanan/webserver.git' }
+                        branch '*/Dev'
+                        extensions {}
+                    }
+                  }
+                  scriptPath 'Jenkinsfile'
+              }
+          }
+      }
+  - script: >
+      pipelineJob('monitor') {
+          definition {
+              cpsScm {
+                  scm {
+                    git {
+                        remote { url 'https://github.com/lkalaivanan/webserver.git' }
+                        branch '*/Dev'
+                        extensions {}
+                    }
+                  }
+                  scriptPath 'Jenkinsfile'
+              }
+          }
+      }
