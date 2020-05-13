@@ -22,60 +22,60 @@ jobs:
   - script: >
           job('Build-Code') {
               scm {
-                  github 'lkalaivanan/webserver.git'
+                  github 'lkalaivanan/webserver'
               }
               triggers {
                   scm '* * * * *'
               }
               steps {
-                  shell('Building the code')
+                  shell('echo Building Code')
               }
           }
   - script: >
           job('Deploy-Test') {
               scm {
-                  github 'lkalaivanan/webserver.git'
+                  github 'lkalaivanan/webserver'
               }
               triggers {
                   upstream('Build-Code', 'SUCCESS')
               }
               steps {
-                  shell('Deplying to QA env')
+                  shell('echo Deplying to QA env')
               }
           }
   - script: >
           job('Testing') {
               scm {
-                  github 'lkalaivanan/webserver.git'
+                  github 'lkalaivanan/webserver'
               }
               triggers {
                   upstream('Deploy-Test', 'SUCCESS')
               }
               steps {
-                  shell('Testing the QA env')
+                  shell('echo Testing the QA env')
               }
           }
   - script: >
           job('Deploy-Prod') {
               scm {
-                  github 'lkalaivanan/webserver.git'
+                  github 'lkalaivanan/webserver'
               }
               triggers {
                   upstream('Testing', 'SUCCESS')
               }
               steps {
-                  shell('Deploying to production')
+                  shell('echo Deploying to production')
               }
           }
   - script: >
-          job('Build-Code') {
+          job('Monitor-Deploy') {
               scm {
-                  github 'lkalaivanan/webserver.git'
+                  github 'lkalaivanan/webserver'
               }
               triggers {
                   cron 'H/5 * * * *'
               }
               steps {
-                  shell('Monitoring Prod every 5 min')
+                  shell('echo Monitoring Prod every 5 min')
               }
           }
