@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker build -t lkalaivanan/auto-jenkins .
+docker build --no-cache -t lkalaivanan/auto-jenkins .
 

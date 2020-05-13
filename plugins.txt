@@ -49,3 +49,4 @@ github-oauth
 configuration-as-code
 configuration-as-code-support
 job-dsl
+delivery-pipeline-plugin

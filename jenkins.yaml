@@ -1,82 +1,81 @@
 ---
 jenkins:
-  systemMessage: "Zero Touch Jenkins Config"
+  systemMessage: 'Zero Touch Jenkins Configuration'
 security:
   globalJobDslSecurityConfiguration:
     useScriptSecurity: false
 jobs:
   - script: >
-      pipelineJob('Build-Code') {
-          definition {
-              cpsScm {
-                  scm {
-                    git {
-                        remote { url 'https://github.com/lkalaivanan/webserver.git' }
-                        branch '*/Dev'
-                        extensions {}
-                    }
-                  }
-                  scriptPath 'Jenkinsfile'
+          deliveryPipelineView('ZeroJobDeploy') {
+              pipelineInstances(5)
+              showAggregatedPipeline()
+              columns(2)
+              sorting(Sorting.TITLE)
+              updateInterval(60)
+              enableManualTriggers()
+              showAvatars()
+              showChangeLog()
+              pipelines {
+                  component('Deploy', 'Build-Code')
               }
           }
-      }
   - script: >
-      pipelineJob('Deploy-on-Test') {
-          definition {
-              cpsScm {
-                  scm {
-                    git {
-                        remote { url 'https://github.com/lkalaivanan/webserver.git' }
-                        branch '*/Dev'
-                        extensions {}
-                    }
-                  }
-                  scriptPath 'Jenkinsfile'
+          job('Build-Code') {
+              scm {
+                  github 'lkalaivanan/webserver.git'
+              }
+              triggers {
+                  scm '* * * * *'
+              }
+              steps {
+                  shell('Building the code')
               }
           }
-      }
   - script: >
-      pipelineJob('Test') {
-          definition {
-              cpsScm {
-                  scm {
-                    git {
-                        remote { url 'https://github.com/lkalaivanan/webserver.git' }
-                        branch '*/Dev'
-                        extensions {}
-                    }
-                  }
-                  scriptPath 'Jenkinsfile'
+          job('Deploy-Test') {
+              scm {
+                  github 'lkalaivanan/webserver.git'
+              }
+              triggers {
+                  upstream('Build-Code', 'SUCCESS')
+              }
+              steps {
+                  shell('Deplying to QA env')
               }
           }
-      }
   - script: >
-      pipelineJob('Deploy-Prod') {
-          definition {
-              cpsScm {
-                  scm {
-                    git {
-                        remote { url 'https://github.com/lkalaivanan/webserver.git' }
-                        branch '*/Dev'
-                        extensions {}
-                    }
-                  }
-                  scriptPath 'Jenkinsfile'
+          job('Testing') {
+              scm {
+                  github 'lkalaivanan/webserver.git'
+              }
+              triggers {
+                  upstream('Deploy-Test', 'SUCCESS')
+              }
+              steps {
+                  shell('Testing the QA env')
               }
           }
-      }
   - script: >
-      pipelineJob('monitor') {
-          definition {
-              cpsScm {
-                  scm {
-                    git {
-                        remote { url 'https://github.com/lkalaivanan/webserver.git' }
-                        branch '*/Dev'
-                        extensions {}
-                    }
-                  }
-                  scriptPath 'Jenkinsfile'
+          job('Deploy-Prod') {
+              scm {
+                  github 'lkalaivanan/webserver.git'
+              }
+              triggers {
+                  upstream('Testing', 'SUCCESS')
+              }
+              steps {
+                  shell('Deploying to production')
               }
           }
-      }
+  - script: >
+          job('Build-Code') {
+              scm {
+                  github 'lkalaivanan/webserver.git'
+              }
+              triggers {
+                  cron 'H/5 * * * *'
+              }
+              steps {
+                  shell('Monitoring Prod every 5 min')
+              }
+          }
